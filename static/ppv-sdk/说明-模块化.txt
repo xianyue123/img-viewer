@@ -1,0 +1,8 @@
+1 h7.html为样例页面，演示了ppv的开发方式
+2 请从h7.html中复制ppv相关的dom结构，以及css样式
+3 ppv文件夹为ppv模块所有内容，请整体复制到开发工程中
+4 ppv依赖库，请添加到开发工程中
+	1 THREE
+	2 proj4
+	3 jquery
+	4 jquery.mousewheel

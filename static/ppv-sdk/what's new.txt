@@ -1,0 +1,175 @@
+
+20171121
+
+1 ppv支持twins
+2 imaj支持twins
+3 imaj设备表，支持ext扩展，旋转视角
+
+
+
+
+20171031
+
+1 支持模块化开发
+
+
+20170901
+
+1 支持触屏
+2 支持移动设备方向传感器
+3 setPref增加两个参数
+	enableSurfaceDetection:true,
+	enableDeviceOrientation:false;
+
+
+20170726
+
+1 增加了系统变量，可以控制箭头位置，远一点，就会小一点
+	ppv.setPref({	
+		arrows:{ //方向箭头位置
+		forward:5,//向前
+		below:1.8,//降低
+		lean:15,//前倾
+		},
+	});
+2 增加一个接口
+	isPlaying
+	返回一个布尔值，是否正在播放
+
+3 创建多边形的问题
+4 视角跟随的bug
+5 增加一个事件onRender(event)
+   event={canvas:canvas}
+
+
+20170712
+
+1 动态创建对象bug
+2 很长的要素，可视范围问题
+
+
+20170703
+
+1 支持用户key，可控数据访问权限
+
+
+20170609
+
+1 支持自定义快捷键
+2 支持自定义标注样式
+3 支持设定不同尺寸的缩略图
+4 匝道上主线
+
+
+
+20170527
+
+1 css样式修改，支持<!DOCTYPE html>
+	注意，不再引用ppv/css/ppv.css
+2 地面采样模式
+	精度有限
+	ppv.setSampleMode(SampleMode.photo);
+3 onPosition事件中
+	增加了branch（转向）、history（历史）、next（下一帧）、prev（上一帧）、back（上下行）信息
+	注意，back和以前定义不同
+4 增加step接口，支持控制前进、后退
+	ppv.step(-10);//后退10帧
+
+
+
+
+20170523
+
+1 箭头叠加透明不正确
+2 全屏
+3 esc 或 ppv.setTool(Tool.none); 取消选中对象
+4 setPref/getPref bug
+5 fullView支持四种模式：
+	var FullMode=
+	{
+		fill:1,		//填充，黑边，保持全部数据可见
+		trans:2,	//镂空，露出背景，保持全部数据可见
+		clip:3,		//裁剪，充满div，数据不全
+		stretch:4,	//拉伸，充满div，会变形
+	}
+7 html中，ppv元素必须采用下面的结构：
+	<div id="ppv_container">
+		<div id="ppv">
+		   <div class="ppv_toolbar">
+		   </div>
+		</div>
+	 </div>
+	 
+	ppv可以设置背景色或背景图片，此时，fullView模式可采用trans
+	#ppv{
+		width:100%;
+		height:100%;	
+		background-image: url(icon/error-imaj.jpg);
+		//background-color:#ffff00;				
+	}
+8 支持历史照片
+9 测量结果单位
+
+
+
+20170519
+
+1 删除showControl接口
+2 删除setMagnifier接口
+3 删除setStyle接口
+4 删除scope参数
+5 统一以上为setPref（getPref）接口
+6 pref支持fullView mode，使照片裁剪以填满div视图
+7 箭头方向文字
+8 键盘、播放、滚轮、接口切帧安全
+9 onTool事件
+	功能改变时，触发事件，包括paly、stop
+10 onLocate事件增加busy状态
+	如果正在加载，不允许重复定位
+
+
+
+
+
+20170518
+
+1 测量高度
+2 测量立面
+3 放大镜bug
+4 增加setStyle接口，可以设置bkColor属性，用来设置背景色，例如：
+	ppv.setStyle({bgcolor:'rgb(255,255,128)'});
+	ppv.setStyle({bgcolor:0xffffff});
+5 增加showControl接口，可以隐藏导向箭头，例如：
+	ppv.showControl(ControlType.arrow,false);
+
+6 播放、暂停快捷键，缺省绑定为空格键
+7 增加getVersion接口，可以查询ppv版本，例如：
+	console.log(ppv.getVersion());
+8 onPosition事件中，增加反向箭头信息，如果当前帧包含反向帧，可以通过locateByID，切换上下行，例如：
+	ppv.onPosition = function(event){
+		if (event.back){
+			backID = event.back;
+			document.getElementById("btBack").style.visibility="visible"
+		}else{
+			document.getElementById("btBack").style.visibility="hidden"
+		}
+	}
+9 标志、标签可以选择随距离改变大小，或保持不变，例如：
+	var layerPointDef = {
+		name:"路灯",
+		type:"Point",//Point, Line, Polygon 三种类型，并非强约束
+		color:0x00ff00,//
+		opacity:1.0,
+		fixSize:false,//
+		size:40,
+		fontSize:15,
+		//icon:"icon/创建点.png",
+	};
+	layerPoint = ppv.addLayer(layerPointDef);
+
+
+
+
+20170502
+
+1 ppv.js 支持内部引用资源相对路径
